@@ -1,0 +1,51 @@
+@model Associated
+@{
+    ViewData["Title"] = "Detalle del asociado";
+    var balance = (BalanceViewModel)ViewBag.Balance;
+    var movements = (List<Movement>)ViewBag.Movements;
+}
+
+<div class="page-title">@Model.FullName</div>
+<div class="page-subtitle">Documento: @Model.DocumentNumber &middot; Tel: @Model.Phone &middot; @Model.Address</div>
+
+<div class="stat-row">
+    <div class="card-stat">
+        <div class="label">Saldo en pesos (COP)</div>
+        <div class="value">@balance.BalanceCop.ToString("C")</div>
+    </div>
+    <div class="card-stat">
+        <div class="label">Saldo en dólares (TRM oficial)</div>
+        <div class="value">
+            @if (balance.BalanceUsd != null)
+            {
+                @($"{balance.BalanceUsd:N2} USD")
+            }
+            else
+            {
+                <span class="text-muted" style="font-size:13px;">@balance.ErrorMessage</span>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="mb-3">
+    <a asp-controller="Movements" asp-action="Deposit" asp-route-document="@Model.DocumentNumber" class="btn btn-dark btn-sm">Registrar depósito</a>
+    <a asp-controller="Movements" asp-action="Withdraw" asp-route-document="@Model.DocumentNumber" class="btn btn-outline-secondary btn-sm">Registrar retiro</a>
+    <a asp-action="Edit" asp-route-id="@Model.DocumentNumber" class="btn btn-outline-secondary btn-sm">Editar datos</a>
+</div>
+
+<h6 class="fw-bold">Historial de movimientos</h6>
+<table class="table table-sm">
+    <thead><tr><th>Fecha</th><th>Tipo</th><th>Valor</th><th>Comisión</th></tr></thead>
+    <tbody>
+    @foreach (var m in movements)
+    {
+        <tr>
+            <td>@m.Date.ToString("yyyy-MM-dd HH:mm")</td>
+            <td>@(m.Type == MovementType.Deposit ? "Consignación" : "Retiro")</td>
+            <td>@m.Amount.ToString("C")</td>
+            <td>@m.Commission.ToString("C")</td>
+        </tr>
+    }
+    </tbody>
+</table>

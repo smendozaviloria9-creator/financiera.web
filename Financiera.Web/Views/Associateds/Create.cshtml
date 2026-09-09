@@ -1,0 +1,36 @@
+@model AssociatedFormViewModel
+@{
+    ViewData["Title"] = "Registrar asociado";
+}
+
+<div class="page-title">Registrar nuevo asociado</div>
+<div class="page-subtitle">Cooperativa Financiera El Progreso</div>
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+<form asp-action="Create" method="post" style="max-width: 500px;">
+    <div class="mb-3">
+        <label asp-for="DocumentNumber" class="form-label"></label>
+        <input asp-for="DocumentNumber" class="form-control" />
+        <span asp-validation-for="DocumentNumber" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="FullName" class="form-label"></label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <<div class="mb-3">
+            <label asp-for="Phone" class="form-label"></label>
+            <input asp-for="Phone" class="form-control" inputmode="numeric" pattern="\d*"
+                   onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Address" class="form-label"></label>
+        <input asp-for="Address" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-dark">Guardar asociado</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+</form>

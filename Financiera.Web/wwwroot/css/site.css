@@ -1,31 +1,99 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
-  margin-bottom: 60px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #F3F4F1;
+  margin: 0;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.app-wrapper {
+  display: flex;
+  min-height: 100vh;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.sidebar {
+  width: 240px;
+  background: #F7F6F2;
+  border-right: 1px solid #E4E2DB;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.brand {
+  padding: 0 8px 20px;
+}
+
+.brand-name {
+  font-weight: bold;
+  font-size: 16px;
+  color: #1C1C1A;
+}
+
+.brand-sub {
+  font-size: 12px;
+  color: #8A8880;
+  margin-top: 4px;
+}
+
+.nav-item {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #5F5E5A;
+  text-decoration: none;
+  margin-bottom: 2px;
+}
+
+.nav-item:hover {
+  background: #EFEEE9;
+  color: #1C1C1A;
+}
+
+.nav-item.active {
+  background: #E6F1FB;
+  color: #0C447C;
+  font-weight: bold;
+}
+
+.content {
+  flex: 1;
+  padding: 28px 36px;
+}
+
+.card-stat {
+  background: #F7F6F2;
+  border-radius: 10px;
+  padding: 16px 18px;
+  flex: 1;
+}
+
+.card-stat .label {
+  font-size: 12px;
+  color: #5F5E5A;
+}
+
+.card-stat .value {
+  font-size: 22px;
+  font-weight: bold;
+  color: #1C1C1A;
+  margin-top: 6px;
+}
+
+.stat-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1C1C1A;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: #5F5E5A;
+  margin-bottom: 20px;
 }

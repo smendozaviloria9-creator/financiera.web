@@ -1,24 +1,41 @@
 using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
 using Financiera.Web.Models;
+using Financiera.Web.Services;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Financiera.Web.Controllers;
-
-public class HomeController : Controller
+namespace Financiera.Web.Controllers
 {
-    public IActionResult Index()
+    public class HomeController : Controller
     {
-        return View();
-    }
+        private readonly BankingService _bankingService;
+        private readonly ExchangeRateService _exchangeRateService;
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        public HomeController(BankingService bankingService, ExchangeRateService exchangeRateService)
+        {
+            _bankingService = bankingService;
+            _exchangeRateService = exchangeRateService;
+        }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public async Task<IActionResult> Index()
+        {
+            var associateds = _bankingService.ListAllAssociateds();
+
+            ViewBag.TotalAssociateds = associateds.Count;
+            ViewBag.TotalMoney = associateds.Sum(a => _bankingService.CalculateBalance(a.DocumentNumber));
+            ViewBag.RecentMovements = _bankingService.GetRecentMovements(5);
+
+            var (trm, error) = await _exchangeRateService.FetchCurrentTrmAsync();
+            ViewBag.TrmValue = trm?.Value;
+            ViewBag.TrmError = error;
+
+            return View();
+        }
+
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 }

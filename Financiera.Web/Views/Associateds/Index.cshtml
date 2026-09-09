@@ -1,0 +1,41 @@
+@model List<Associated>
+@{
+    ViewData["Title"] = "Asociados";
+}
+
+<div class="page-title">Asociados</div>
+<div class="page-subtitle">Administración global de la entidad</div>
+
+<form method="get" class="d-flex gap-2 mb-3" style="max-width: 500px;">
+    <input type="text" name="search" value="@ViewBag.Search" class="form-control form-control-sm" placeholder="Buscar por nombre..." />
+    <button type="submit" class="btn btn-outline-secondary btn-sm">Buscar</button>
+    <a asp-action="Create" class="btn btn-dark btn-sm text-nowrap">+ Nuevo asociado</a>
+</form>
+
+<table class="table table-sm align-middle">
+    <thead>
+    <tr>
+        <th>Documento</th><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Estado</th><th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var a in Model)
+    {
+        <tr>
+            <td>@a.DocumentNumber</td>
+            <td>@a.FullName</td>
+            <td>@a.Phone</td>
+            <td>@a.Address</td>
+            <td><span class="badge bg-success-subtle text-success">Activo</span></td>
+            <td class="text-end">
+                <a asp-action="Details" asp-route-id="@a.DocumentNumber" class="btn btn-sm btn-outline-secondary">Ver</a>
+                <a asp-action="Edit" asp-route-id="@a.DocumentNumber" class="btn btn-sm btn-outline-secondary">Editar</a>
+                <form asp-action="Delete" asp-route-id="@a.DocumentNumber" method="post" style="display:inline;"
+                      onsubmit="return confirm('¿Eliminar este asociado?');">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

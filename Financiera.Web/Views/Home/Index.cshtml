@@ -1,8 +1,63 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Pantalla principal";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="page-title">Pantalla principal</div>
+<div class="page-subtitle">Cooperativa Financiera El Progreso &mdash; resumen general</div>
+
+<div class="stat-row">
+    <div class="card-stat">
+        <div class="label">Saldo total de la cooperativa</div>
+        <div class="value">@(((decimal)ViewBag.TotalMoney).ToString("C"))</div>
+    </div>
+    <div class="card-stat">
+        <div class="label">Asociados activos</div>
+        <div class="value">@ViewBag.TotalAssociateds</div>
+    </div>
+    <div class="card-stat">
+        <div class="label">TRM oficial</div>
+        <div class="value">
+            @if (ViewBag.TrmValue != null)
+            {
+                @ViewBag.TrmValue
+            }
+            else
+            {
+                <span class="text-muted" style="font-size:13px;">No disponible</span>
+            }
+        </div>
+    </div>
 </div>
+
+<div class="mb-3">
+    <a asp-controller="Associateds" asp-action="Create" class="btn btn-dark btn-sm">+ Registrar nuevo asociado</a>
+    <a asp-controller="Movements" asp-action="Deposit" class="btn btn-outline-secondary btn-sm">Registrar depósito</a>
+    <a asp-controller="Movements" asp-action="Withdraw" class="btn btn-outline-secondary btn-sm">Registrar retiro</a>
+</div>
+
+<h6 class="fw-bold">Movimientos recientes</h6>
+<table class="table table-sm">
+    <thead>
+        <tr><th>Documento</th><th>Tipo</th><th>Valor</th><th>Fecha</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var m in (List<Movement>)ViewBag.RecentMovements)
+        {
+            <tr>
+                <td>@m.DocumentNumber</td>
+                <td>
+                    @if (m.Type == MovementType.Deposit)
+                    {
+                        <span class="badge bg-success-subtle text-success">Consignación</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger-subtle text-danger">Retiro</span>
+                    }
+                </td>
+                <td>@m.Amount.ToString("C")</td>
+                <td>@m.Date.ToString("yyyy-MM-dd HH:mm")</td>
+            </tr>
+        }
+    </tbody>
+</table>

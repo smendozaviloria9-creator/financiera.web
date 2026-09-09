@@ -1,0 +1,89 @@
+@model ReportsIndexViewModel
+@{
+    ViewData["Title"] = "Informes de gerencia";
+}
+
+<div class="page-title">Informes de gerencia</div>
+<div class="page-subtitle">Cooperativa Financiera El Progreso</div>
+
+<h6 class="fw-bold">1. ¿Cuánta plata tenemos?</h6>
+<div class="stat-row">
+    <div class="card-stat">
+        <div class="label">Saldo total</div>
+        <div class="value">@Model.Report1.TotalMoney.ToString("C")</div>
+    </div>
+    <div class="card-stat">
+        <div class="label">Cantidad de asociados</div>
+        <div class="value">@Model.Report1.TotalAssociateds</div>
+    </div>
+    <div class="card-stat">
+        <div class="label">Saldo promedio</div>
+        <div class="value">@Model.Report1.AverageMoney.ToString("C")</div>
+    </div>
+</div>
+
+<h6 class="fw-bold">2. ¿Quiénes son mis mejores asociados?</h6>
+<table class="table table-sm">
+    <thead><tr><th>#</th><th>Documento</th><th>Nombre</th><th>Saldo</th></tr></thead>
+    <tbody>
+        @foreach (var r in Model.Report2)
+        {
+            <tr><td>@r.Rank</td><td>@r.DocumentNumber</td><td>@r.FullName</td><td>@r.Balance.ToString("C")</td></tr>
+        }
+    </tbody>
+</table>
+
+<h6 class="fw-bold">3. ¿Quiénes están dormidos?</h6>
+<p class="text-muted" style="font-size:13px;">Total sin movimientos: @Model.Report3.Count</p>
+<table class="table table-sm">
+    <thead><tr><th>Documento</th><th>Nombre</th></tr></thead>
+    <tbody>
+        @foreach (var r in Model.Report3)
+        {
+            <tr><td>@r.DocumentNumber</td><td>@r.FullName</td></tr>
+        }
+    </tbody>
+</table>
+
+<h6 class="fw-bold">4. ¿Cómo nos fue en el periodo?</h6>
+<form method="get" class="d-flex gap-2 mb-2" style="max-width: 420px;">
+    <input type="date" name="startDate" value="@Model.Report4.StartDate.ToString("yyyy-MM-dd")" class="form-control form-control-sm" />
+    <input type="date" name="endDate" value="@Model.Report4.EndDate.ToString("yyyy-MM-dd")" class="form-control form-control-sm" />
+    <button type="submit" class="btn btn-outline-secondary btn-sm">Filtrar</button>
+</form>
+<div class="stat-row">
+    <div class="card-stat">
+        <div class="label">Entró en consignaciones (@Model.Report4.CountDeposits)</div>
+        <div class="value">@Model.Report4.TotalDeposits.ToString("C")</div>
+    </div>
+    <div class="card-stat">
+        <div class="label">Salió en retiros (@Model.Report4.CountWithdrawals)</div>
+        <div class="value">@Model.Report4.TotalWithdrawals.ToString("C")</div>
+    </div>
+    <div class="card-stat">
+        <div class="label">Diferencia</div>
+        <div class="value">@Model.Report4.Difference.ToString("C")</div>
+    </div>
+</div>
+
+<h6 class="fw-bold">5. ¿Cuáles fueron los movimientos más grandes?</h6>
+<table class="table table-sm">
+    <thead><tr><th>Fecha</th><th>Tipo</th><th>Valor total</th><th>Asociado</th></tr></thead>
+    <tbody>
+        @foreach (var r in Model.Report5)
+        {
+            <tr><td>@r.Date.ToString("yyyy-MM-dd HH:mm")</td><td>@r.Type</td><td>@r.TotalValue.ToString("C")</td><td>@r.AssociatedName</td></tr>
+        }
+    </tbody>
+</table>
+
+<h6 class="fw-bold">6. ¿Quién me está moviendo la caja?</h6>
+<table class="table table-sm">
+    <thead><tr><th>Nombre</th><th>Movimientos</th><th>Consignado</th><th>Retirado</th><th>Saldo</th></tr></thead>
+    <tbody>
+        @foreach (var r in Model.Report6)
+        {
+            <tr><td>@r.FullName</td><td>@r.Count</td><td>@r.TotalDeposited.ToString("C")</td><td>@r.TotalWithdrawn.ToString("C")</td><td>@r.CurrentBalance.ToString("C")</td></tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,37 @@
+@model AssociatedFormViewModel
+@{
+    ViewData["Title"] = "Editar asociado";
+}
+
+<div class="page-title">Editar asociado</div>
+<div class="page-subtitle">Documento: @Model.DocumentNumber</div>
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+<form asp-action="Edit" asp-route-id="@Model.DocumentNumber" method="post" style="max-width: 500px;">
+    <input type="hidden" asp-for="DocumentNumber" />
+    <input type="hidden" asp-for="IsEdit" />
+    <div class="mb-3">
+        <label class="form-label">Número de documento</label>
+        <input class="form-control" value="@Model.DocumentNumber" disabled />
+    </div>
+    <div class="mb-3">
+        <label asp-for="FullName" class="form-label"></label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <div class="mb-3">
+            <label asp-for="Phone" class="form-label"></label>
+            <input asp-for="Phone" class="form-control" inputmode="numeric" pattern="\d*"
+                   onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Address" class="form-label"></label>
+        <input asp-for="Address" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-dark">Guardar cambios</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+</form>

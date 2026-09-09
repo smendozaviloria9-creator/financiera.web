@@ -1,0 +1,24 @@
+@model MovementFormViewModel
+@{
+    ViewData["Title"] = "Registrar retiro";
+}
+
+<div class="page-title">Registrar retiro</div>
+<div class="page-subtitle">Se aplica comisión de $8.000 en retiros mayores a $1.000.000</div>
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+<form asp-action="Withdraw" method="post" style="max-width: 500px;">
+    <div class="mb-3">
+        <label asp-for="DocumentNumber" class="form-label"></label>
+        <input asp-for="DocumentNumber" class="form-control" />
+        <span asp-validation-for="DocumentNumber" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Amount" class="form-label">Valor del retiro</label>
+        <input asp-for="Amount" class="form-control" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-dark">Registrar retiro</button>
+    <a asp-controller="Associateds" asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+</form>
